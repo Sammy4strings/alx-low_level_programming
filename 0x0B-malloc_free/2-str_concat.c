@@ -2,51 +2,42 @@
 #include <stdlib.h>
 
 /**
- * argstostr - concatenates all the arguments of a program.
- * @ac: argument count.
- * @av: argument vector.
+ * str_concat - concatenates two strings.
+ * @s1: first string.
+ * @s2: second string.
  *
- * Return: pointer of an array of char
+ * Return: pointer of an array of chars
  */
-char *argstostr(int ac, char **av)
+char *str_concat(char *s1, char *s2)
 {
-	char *aout;
-	int c, i, j, ia;
+	char *strout;
+	unsigned int i, j, k, limit;
 
-	if (ac == 0)
-		return (NULL);
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
 
-	for (c = i = 0; i < ac; i++)
+	for (i = 0; s1[i] != '\0'; i++)
+		;
+
+	for (j = 0; s2[j] != '\0'; j++)
+		;
+
+	strout = malloc(sizeof(char) * (i + j + 1));
+
+	if (strout == NULL)
 	{
-		if (av[i] == NULL)
-			return (NULL);
-
-		for (j = 0; av[i][j] != '\0'; j++)
-			c++;
-		c++;
-	}
-
-	aout = malloc((c + 1) * sizeof(char));
-
-	if (aout == NULL)
-	{
-		free(aout);
+		free(strout);
 		return (NULL);
 	}
 
-	for (i = j = ia = 0; ia < c; j++, ia++)
-	{
-		if (av[i][j] == '\0')
-		{
-			aout[ia] = '\n';
-			i++;
-			ia++;
-			j = 0;
-		}
-		if (ia < c - 1)
-			aout[ia] = av[i][j];
-	}
-	aout[ia] = '\0';
+	for (k = 0; k < i; k++)
+		strout[k] = s1[k];
 
-	return (aout);
+	limit = j;
+	for (j = 0; j <= limit; k++, j++)
+		strout[k] = s2[j];
+
+	return (strout);
 }
